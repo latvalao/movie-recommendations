@@ -10,7 +10,7 @@ Movie Recommendations on web-sovellus, jossa käyttäjät voivat jakaa elokuvasu
 - Käyttäjä pystyy etsimään elokuvia hakusanalla, esimerkiksi elokuvan nimellä.
 - Sovelluksessa on käyttäjäsivut, joista näkee käyttäjän lisäämät elokuvat sekä tilaston lisättyjen elokuvien määrästä.
 - Käyttäjä pystyy valitsemaan elokuvalle yhden tai useamman luokittelun, kuten toiminta, komedia, draama tai scifi.
-- Käyttäjät voivat lisätä kommentteja elokuviin.
+- Käyttäjät voivat lisätä kommentteja elokuviin. (Ja tähtiarvosteluja, 1-5!)
 
 ## Tietokohteet
 
