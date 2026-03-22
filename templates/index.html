@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Elokuvat</h1>
+
+<form class="search-form" method="GET" action="{{ url_for('index') }}">
+    <input type="text" name="query" value="{{ query }}" placeholder="Hae elokuvan nimellä...">
+    <button type="submit" class="btn btn-primary">Hae</button>
+    {% if query %}
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Tyhjennä</a>
+    {% endif %}
+</form>
+
+{% if query %}
+    <p style="color:#888; margin-bottom:1rem;">Hakutulokset haulle "{{ query }}" ({{ movies|length }} kpl)</p>
+{% endif %}
+
+{% if movies %}
+    {% for movie in movies %}
+        <div class="movie-card">
+            <h2>{{ movie.name }}</h2>
+            <div class="meta">
+                {% if movie.year %}{{ movie.year }} · {% endif %}
+                Lisännyt {{ movie.username }}
+            </div>
+            {% if movie.description %}
+                <div class="desc">{{ movie.description }}</div>
+            {% endif %}
+            {% if session.get('user_id') == movie.user_id %}
+                <div class="actions">
+                    <a href="{{ url_for('edit_movie', movie_id=movie.id) }}" class="btn btn-secondary">Muokkaa</a>
+                    <form method="POST" action="{{ url_for('delete_movie', movie_id=movie.id) }}" style="display:inline;"
+                          onsubmit="return confirm('Poistetaanko elokuva?')">
+                        <button type="submit" class="btn btn-danger">Poista</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p style="color:#888;">Ei elokuvia{% if query %} haulla "{{ query }}"{% endif %}.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Georgia, serif; background: #1a1a2e; color: #e0e0e0; min-height: 100vh; }
+        a { color: #e2b714; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        nav { background: #16213e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2b714; }
+        nav .brand { font-size: 1.3rem; font-weight: bold; color: #e2b714; }
+        nav .links { display: flex; gap: 1.2rem; align-items: center; }
+        nav .links a { color: #c0c0c0; font-size: 0.95rem; }
+        nav .links a:hover { color: #e2b714; }
+        nav .user-info { color: #888; font-size: 0.9rem; }
+
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; }
+
+        .flash { padding: 0.7rem 1rem; margin-bottom: 1rem; border-radius: 4px; font-size: 0.95rem; }
+        .flash.success { background: #0f3d0f; color: #8eff8e; border: 1px solid #2a7a2a; }
+        .flash.error { background: #3d0f0f; color: #ff8e8e; border: 1px solid #7a2a2a; }
+
+        h1 { color: #e2b714; margin-bottom: 1.2rem; font-size: 1.6rem; }
+
+        .search-form { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
+        .search-form input[type="text"] { flex: 1; }
+
+        input[type="text"], input[type="password"], input[type="number"], textarea {
+            width: 100%; padding: 0.6rem 0.8rem; background: #16213e; color: #e0e0e0;
+            border: 1px solid #333; border-radius: 4px; font-size: 0.95rem; font-family: inherit;
+        }
+        input:focus, textarea:focus { outline: none; border-color: #e2b714; }
+        textarea { resize: vertical; min-height: 80px; }
+
+        label { display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem; }
+        .form-group { margin-bottom: 1rem; }
+
+        button, .btn {
+            display: inline-block; padding: 0.55rem 1.2rem; border: none; border-radius: 4px;
+            cursor: pointer; font-size: 0.95rem; font-family: inherit; text-decoration: none;
+        }
+        .btn-primary { background: #e2b714; color: #1a1a2e; font-weight: bold; }
+        .btn-primary:hover { background: #c9a212; text-decoration: none; }
+        .btn-danger { background: #7a2a2a; color: #ff8e8e; }
+        .btn-danger:hover { background: #932e2e; }
+        .btn-secondary { background: #333; color: #ccc; }
+        .btn-secondary:hover { background: #444; text-decoration: none; }
+
+        .movie-card {
+            background: #16213e; border: 1px solid #2a2a4a; border-radius: 6px;
+            padding: 1.2rem; margin-bottom: 1rem;
+        }
+        .movie-card h2 { font-size: 1.2rem; color: #e2b714; margin-bottom: 0.3rem; }
+        .movie-card .meta { color: #888; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .movie-card .desc { color: #bbb; font-size: 0.95rem; line-height: 1.5; }
+        .movie-card .actions { margin-top: 0.8rem; display: flex; gap: 0.5rem; align-items: center; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a class="brand" href="{{ url_for('index') }}">Movie Recommendations</a>
+        <div class="links">
+            {% if session.get('user_id') %}
+                <span class="user-info">{{ session.username }}</span>
+                <a href="{{ url_for('add_movie') }}">+ Lisää elokuva</a>
+                <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Kirjaudu</a>
+                <a href="{{ url_for('register') }}">Rekisteröidy</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

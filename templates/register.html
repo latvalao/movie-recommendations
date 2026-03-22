@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Rekisteröidy</h1>
+<form method="POST" style="max-width:400px;">
+    <div class="form-group">
+        <label for="username">Käyttäjätunnus (3–30 merkkiä)</label>
+        <input type="text" id="username" name="username" required minlength="3" maxlength="30">
+    </div>
+    <div class="form-group">
+        <label for="password">Salasana (vähintään 4 merkkiä)</label>
+        <input type="password" id="password" name="password" required minlength="4">
+    </div>
+    <button type="submit" class="btn btn-primary">Rekisteröidy</button>
+    <p style="margin-top:1rem; color:#888;">Onko jo tunnus? <a href="{{ url_for('login') }}">Kirjaudu</a></p>
+</form>
+{% endblock %}
