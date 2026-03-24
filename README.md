@@ -2,13 +2,15 @@
 
 Web-sovellus, jossa käyttäjät voivat jakaa elokuvasuosituksia. Käyttäjät voivat luoda tunnuksen, kirjautua sisään, lisätä elokuvia sekä muokata ja poistaa omia elokuviaan. Etusivulla näkyvät kaikki lisätyt elokuvat, ja niitä voi hakea nimellä.
 
+Sovelluksessa on ihan hieno ulkoasu. Niin hienoksi sen tein, kun surkastuneilla HTML-taidoillani pystyin.
+
 ## Toteutetut toiminnot
 
--- Käyttäjän rekisteröinti ja kirjautuminen
--- Elokuvien lisääminen (nimi, kuvaus, julkaisuvuosi)
--- Omien elokuvien muokkaaminen ja poistaminen
--- Kaikkien elokuvien listaus etusivulla
--- Elokuvien haku nimellä
+- Käyttäjän rekisteröinti ja kirjautuminen
+- Elokuvien lisääminen (nimi, kuvaus, julkaisuvuosi)
+- Omien elokuvien muokkaaminen ja poistaminen
+- Kaikkien elokuvien listaus etusivulla
+- Elokuvien haku nimellä
 
 ## Käynnistäminen
 
