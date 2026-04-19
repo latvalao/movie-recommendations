@@ -4,32 +4,49 @@
 
 <form class="search-form" method="GET" action="{{ url_for('index') }}">
     <input type="text" name="query" value="{{ query }}" placeholder="Hae elokuvan nimellä...">
+    <select name="genre">
+        <option value="">Kaikki genret</option>
+        {% for genre in genres %}
+            <option value="{{ genre.id }}" {% if selected_genre == genre.id|string %}selected{% endif %}>{{ genre.name }}</option>
+        {% endfor %}
+    </select>
     <button type="submit" class="btn btn-primary">Hae</button>
-    {% if query %}
+    {% if query or selected_genre %}
         <a href="{{ url_for('index') }}" class="btn btn-secondary">Tyhjennä</a>
     {% endif %}
 </form>
 
-{% if query %}
-    <p style="color:#888; margin-bottom:1rem;">Hakutulokset haulle "{{ query }}" ({{ movies|length }} kpl)</p>
+{% if query or selected_genre %}
+    <p style="color:#888; margin-bottom:1rem;">
+        Hakutulokset
+        {% if query %}haulle "{{ query }}"{% endif %}
+        ({{ movies|length }} kpl)
+    </p>
 {% endif %}
 
 {% if movies %}
     {% for movie in movies %}
         <div class="movie-card">
-            <h2>{{ movie.name }}</h2>
+            <h2><a href="{{ url_for('movie_page', movie_id=movie.id) }}">{{ movie.name }}</a></h2>
             <div class="meta">
                 {% if movie.year %}{{ movie.year }} · {% endif %}
-                Lisännyt {{ movie.username }}
+                Lisännyt <a href="{{ url_for('user_page', user_id=movie.user_id) }}">{{ movie.username }}</a>
             </div>
+            {% if movie_genres.get(movie.id) %}
+                <div style="margin-bottom:0.4rem;">
+                    {% for g in movie_genres[movie.id] %}
+                        <span class="genre-tag">{{ g }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% if movie.description %}
                 <div class="desc">{{ movie.description }}</div>
             {% endif %}
             {% if session.get('user_id') == movie.user_id %}
                 <div class="actions">
                     <a href="{{ url_for('edit_movie', movie_id=movie.id) }}" class="btn btn-secondary">Muokkaa</a>
-                    <form method="POST" action="{{ url_for('delete_movie', movie_id=movie.id) }}" style="display:inline;"
-                          onsubmit="return confirm('Poistetaanko elokuva?')">
+                    <form method="POST" action="{{ url_for('delete_movie', movie_id=movie.id) }}" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                         <button type="submit" class="btn btn-danger">Poista</button>
                     </form>
                 </div>

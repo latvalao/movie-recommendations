@@ -2,6 +2,7 @@
 {% block content %}
 <h1>Kirjaudu sisään</h1>
 <form method="POST" style="max-width:400px;">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <div class="form-group">
         <label for="username">Käyttäjätunnus</label>
         <input type="text" id="username" name="username" required>

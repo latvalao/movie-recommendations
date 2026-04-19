@@ -10,9 +10,9 @@
         a { color: #e2b714; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        nav { background: #16213e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2b714; }
+        nav { background: #16213e; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2b714; flex-wrap: wrap; gap: 0.5rem; }
         nav .brand { font-size: 1.3rem; font-weight: bold; color: #e2b714; }
-        nav .links { display: flex; gap: 1.2rem; align-items: center; }
+        nav .links { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
         nav .links a { color: #c0c0c0; font-size: 0.95rem; }
         nav .links a:hover { color: #e2b714; }
         nav .user-info { color: #888; font-size: 0.9rem; }
@@ -24,15 +24,17 @@
         .flash.error { background: #3d0f0f; color: #ff8e8e; border: 1px solid #7a2a2a; }
 
         h1 { color: #e2b714; margin-bottom: 1.2rem; font-size: 1.6rem; }
+        h2 { color: #e2b714; }
 
-        .search-form { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
-        .search-form input[type="text"] { flex: 1; }
+        .search-form { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .search-form input[type="text"] { flex: 1; min-width: 150px; }
+        .search-form select { background: #16213e; color: #e0e0e0; border: 1px solid #333; border-radius: 4px; padding: 0.6rem 0.8rem; font-size: 0.95rem; font-family: inherit; }
 
-        input[type="text"], input[type="password"], input[type="number"], textarea {
+        input[type="text"], input[type="password"], input[type="number"], textarea, select {
             width: 100%; padding: 0.6rem 0.8rem; background: #16213e; color: #e0e0e0;
             border: 1px solid #333; border-radius: 4px; font-size: 0.95rem; font-family: inherit;
         }
-        input:focus, textarea:focus { outline: none; border-color: #e2b714; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #e2b714; }
         textarea { resize: vertical; min-height: 80px; }
 
         label { display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem; }
@@ -54,9 +56,38 @@
             padding: 1.2rem; margin-bottom: 1rem;
         }
         .movie-card h2 { font-size: 1.2rem; color: #e2b714; margin-bottom: 0.3rem; }
+        .movie-card h2 a { color: #e2b714; }
         .movie-card .meta { color: #888; font-size: 0.85rem; margin-bottom: 0.5rem; }
         .movie-card .desc { color: #bbb; font-size: 0.95rem; line-height: 1.5; }
         .movie-card .actions { margin-top: 0.8rem; display: flex; gap: 0.5rem; align-items: center; }
+
+        .genre-tag {
+            display: inline-block; background: #2a2a4a; color: #c0c0c0; padding: 0.15rem 0.5rem;
+            border-radius: 3px; font-size: 0.8rem; margin-right: 0.3rem; margin-top: 0.3rem;
+        }
+
+        .genre-checkboxes { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.3rem; }
+        .genre-checkboxes label { display: inline-flex; align-items: center; gap: 0.3rem; color: #ccc; font-size: 0.9rem; cursor: pointer; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-card { background: #16213e; border: 1px solid #2a2a4a; border-radius: 6px; padding: 1rem; text-align: center; }
+        .stat-card .number { font-size: 1.8rem; color: #e2b714; font-weight: bold; }
+        .stat-card .label { color: #888; font-size: 0.85rem; margin-top: 0.3rem; }
+
+        .review-card {
+            background: #0f1a2e; border: 1px solid #2a2a4a; border-radius: 6px;
+            padding: 1rem; margin-bottom: 0.8rem;
+        }
+        .review-card .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+        .review-card .review-author { color: #e2b714; font-weight: bold; font-size: 0.95rem; }
+        .review-card .review-rating { color: #e2b714; font-size: 0.95rem; }
+        .review-card .review-comment { color: #bbb; font-size: 0.95rem; line-height: 1.5; margin-top: 0.4rem; }
+        .review-card .review-date { color: #666; font-size: 0.8rem; margin-top: 0.4rem; }
+
+        .stars { color: #e2b714; letter-spacing: 2px; }
+
+        .rating-select { display: flex; gap: 0.5rem; align-items: center; }
+        .rating-select label { display: inline; color: #ccc; margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -64,7 +95,7 @@
         <a class="brand" href="{{ url_for('index') }}">Movie Recommendations</a>
         <div class="links">
             {% if session.get('user_id') %}
-                <span class="user-info">{{ session.username }}</span>
+                <a href="{{ url_for('user_page', user_id=session.get('user_id')) }}">{{ session.username }}</a>
                 <a href="{{ url_for('add_movie') }}">+ Lisää elokuva</a>
                 <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
             {% else %}
