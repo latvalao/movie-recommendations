@@ -32,7 +32,7 @@ def generate_csrf_token():
         session["csrf_token"] = secrets.token_hex(16)
 
 
-# Reitit
+# routes
 
 @app.route("/")
 def index():
@@ -83,7 +83,7 @@ def index():
     )
 
 
-# Rekisteröinti & kirjautuminen
+# Registration & login
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -143,8 +143,7 @@ def logout():
     return redirect(url_for("index"))
 
 
-# Elokuvan lisäys, muokkaus ja poisto
-
+# Add, edit and delete movies
 @app.route("/add", methods=["GET", "POST"])
 def add_movie():
     require_login()
@@ -441,7 +440,7 @@ def user_page(user_id):
     )
 
 
-# Virheenkäsittely
+# Error handling
 
 @app.errorhandler(403)
 def forbidden(e):
